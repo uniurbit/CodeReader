@@ -1,13 +1,12 @@
 #!/bin/bash
 f=0
 err=0
-prefix="CODE-128:"
 for filepath in input/*
 do
     file=$(basename $filepath)
     pdftoppm -png input/"$file" pngfiles/"$file"
     barcode=$(zbarimg -q pngfiles/"$file"-1.png)
-    name=${barcode#"$prefix"}
+    name=$(sed 's/.*://g' <<< $barcode)
 
     if [ -z "$name" ]
 	then
